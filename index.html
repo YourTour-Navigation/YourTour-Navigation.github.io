@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YourTour Admin Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-bg">
+    <nav class="navbar">
+      <div class="navbar-title">YOUR TOUR Admin</div>
+      <ul class="navbar-links">
+        <li class="active">Advertisements</li>
+        <!-- Future: <li>Users</li> -->
+      </ul>
+    </nav>
+    <main class="container">
+      <h2>Manage Advertisements</h2>
+      <section id="ads-section">
+        <table id="ads-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>City</th>
+              <th>State</th>
+              <th>Address</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Ads will be populated here -->
+          </tbody>
+        </table>
+      </section>
+      <section id="add-ad-section">
+        <h3>Add Advertisement</h3>
+        <form id="add-ad-form">
+          <input type="text" name="title" placeholder="Title" required />
+          <input type="text" name="city" placeholder="City" required />
+          <input type="text" name="state" placeholder="State" required />
+          <input type="text" name="address" placeholder="Address" required />
+          <textarea name="description" placeholder="Description" required></textarea>
+          <button type="submit">Add Advertisement</button>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script src="app.js"></script>
+  <script>
+    if (!localStorage.getItem('token')) {
+      window.location.href = './pages/login.html';
+    }
+  </script> 
+</body>
+</html> 
