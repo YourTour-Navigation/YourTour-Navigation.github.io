@@ -1,57 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YourTour Admin Portal</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="app-bg">
-    <nav class="navbar">
-      <div class="navbar-title">YOUR TOUR Admin</div>
-      <ul class="navbar-links">
-        <li class="active">Advertisements</li>
-        <!-- Future: <li>Users</li> -->
-      </ul>
-    </nav>
-    <main class="container">
-      <h2>Manage Advertisements</h2>
-      <section id="ads-section">
-        <table id="ads-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>City</th>
-              <th>State</th>
-              <th>Address</th>
-              <th>Description</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Ads will be populated here -->
-          </tbody>
-        </table>
-      </section>
-      <section id="add-ad-section">
-        <h3>Add Advertisement</h3>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YourTour Admin Portal</title>
+    <!-- Add DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="app-bg">
+      <nav class="navbar">
+        <div class="navbar-title">
+          <img src="./assets/flat.png" alt="YourTour Logo" class="logo" />
+        </div>
+        <ul class="navbar-links">
+          <li class="active">Advertisements</li>
+          <!-- Future: <li>Users</li> -->
+        </ul>
+      </nav>
+      <main class="container">
+        <h2>
+          Manage Advertisements
+          <button class="add-ad-button" onclick="openModal()">
+            <span class="material-icons">add</span>
+          </button>
+        </h2>
+        <section id="ads-section">
+          <table id="ads-table" class="table table-striped">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Description</th>
+                <th>Ads Sent</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Ads will be populated here -->
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="addAdModal">
+      <div class="modal" style="display: none;">
+        <div class="modal-header">
+          <h3 id="modalTitle">Add Advertisement</h3>
+          <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
         <form id="add-ad-form">
+          <input type="hidden" name="id" id="adId" />
           <input type="text" name="title" placeholder="Title" required />
           <input type="text" name="city" placeholder="City" required />
           <input type="text" name="state" placeholder="State" required />
           <input type="text" name="address" placeholder="Address" required />
           <textarea name="description" placeholder="Description" required></textarea>
-          <button type="submit">Add Advertisement</button>
+          <button type="submit" id="submitButton">Add Advertisement</button>
         </form>
-      </section>
-    </main>
-  </div>
-  <script src="app.js"></script>
-  <script>
-    if (!localStorage.getItem('token')) {
-      window.location.href = './pages/login.html';
-    }
-  </script> 
-</body>
-</html> 
+      </div>
+    </div>
+
+    <!-- Add jQuery and DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="app.js"></script>
+    <script>
+      if (!localStorage.getItem("token")) {
+        window.location.href = "./pages/login.html";
+      }
+
+      let isEditing = false;
+      let dataTable;
+      let currentAds = []; // Store the current ads array
+
+      function openModal(ad = null) {
+        const modalOverlay = document.getElementById("addAdModal");
+        const modal = modalOverlay.querySelector(".modal");
+        const modalTitle = document.getElementById("modalTitle");
+        const submitButton = document.getElementById("submitButton");
+        const form = document.getElementById("add-ad-form");
+        
+        if (ad) {
+          // Edit mode
+          isEditing = true;
+          modalTitle.textContent = "Edit Advertisement";
+          submitButton.textContent = "Update Advertisement";
+          document.getElementById("adId").value = ad.id;
+          form.title.value = ad.title;
+          form.city.value = ad.city;
+          form.state.value = ad.state;
+          form.address.value = ad.address;
+          form.description.value = ad.description;
+        } else {
+          // Add mode
+          isEditing = false;
+          modalTitle.textContent = "Add Advertisement";
+          submitButton.textContent = "Add Advertisement";
+          form.reset();
+          document.getElementById("adId").value = "";
+        }
+        
+        modal.style.display = "block";
+        modalOverlay.classList.add("active");
+      }
+
+      function closeModal() {
+        const modalOverlay = document.getElementById("addAdModal");
+        const modal = modalOverlay.querySelector(".modal");
+        modal.style.display = "none";
+        modalOverlay.classList.remove("active");
+        document.getElementById("add-ad-form").reset();
+        document.getElementById("adId").value = "";
+        isEditing = false;
+      }
+
+      // Move event handlers outside of renderAds
+      $(document).ready(function() {
+        // Add button click handler
+        $('.add-ad-button').on('click', function() {
+          openModal();
+        });
+
+        // Edit button click handler
+        $(document).on('click', '.edit-button', function() {
+          const adId = $(this).data('ad-id');
+          const ad = currentAds.find(a => a.id === parseInt(adId));
+          if (ad) {
+            openModal(ad);
+          }
+        });
+
+        // Delete button click handler
+        $(document).on('click', '.delete-button', function() {
+          const adId = $(this).data('ad-id');
+          if (adId) {
+            deleteAd(parseInt(adId));
+          }
+        });
+
+        // Close modal when clicking outside
+        $('#addAdModal').on('click', function(e) {
+          if (e.target === this) {
+            closeModal();
+          }
+        });
+
+        // Close modal on escape key
+        $(document).on('keydown', function(e) {
+          if (e.key === "Escape") {
+            closeModal();
+          }
+        });
+
+        // Close button click handler
+        $('.modal-close').on('click', function() {
+          closeModal();
+        });
+      });
+
+      const API_BASE = "http://yourtourserv.duckdns.org:3000";
+      const TOKEN = localStorage.getItem("token") || "";
+
+      function fetchAds() {
+        fetch(`${API_BASE}/advertisements/admin/all`, {
+          headers: { authorization: TOKEN },
+        })
+          .then((res) => res.json())
+          .then((ads) => {
+            if (dataTable) {
+              dataTable.destroy();
+            }
+            renderAds(ads);
+          })
+          .catch(() => {
+            if (dataTable) {
+              dataTable.destroy();
+            }
+            renderAds([]);
+          });
+      }
+
+      function renderAds(ads) {
+        console.log('Rendering ads:', ads);
+        currentAds = ads; // Store the current ads array
+        
+        const tbody = document.querySelector("#ads-table tbody");
+        tbody.innerHTML = "";
+        
+        if (!ads.length) {
+          tbody.innerHTML =
+            '<tr><td colspan="7" style="text-align:center;color:#888;">No advertisements found.</td></tr>';
+          return;
+        }
+
+        // Create a document fragment for better performance
+        const fragment = document.createDocumentFragment();
+        
+        ads.forEach((ad) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${ad.title}</td>
+            <td>${ad.address}</td>
+            <td>${ad.city}</td>
+            <td>${ad.state}</td>
+            <td>${ad.description}</td>
+            <td>${ad.shown_count || 0}</td>
+            <td>
+              <button class="edit-button" data-ad-id="${ad.id}">
+                <span class="material-icons" style="font-size: 18px;">edit</span>
+              </button>
+              <button class="delete-button" data-ad-id="${ad.id}">
+                <span class="material-icons" style="font-size: 18px;">delete</span>
+              </button>
+            </td>
+          `;
+          fragment.appendChild(tr);
+        });
+
+        tbody.appendChild(fragment);
+
+        // Initialize DataTable
+        if (dataTable) {
+          dataTable.destroy();
+        }
+
+        dataTable = $('#ads-table').DataTable({
+          responsive: true,
+          pageLength: 10,
+          lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+          order: [[0, 'asc']], // Sort by title by default
+          columnDefs: [
+            {
+              targets: -1, // Last column (Actions)
+              orderable: false, // Disable sorting for actions column
+              searchable: false // Disable searching for actions column
+            },
+            {
+              targets: 4, // Description column
+              render: function(data, type, row) {
+                if (type === 'display') {
+                  // For display, truncate long descriptions
+                  return data.length > 100 ? data.substr(0, 100) + '...' : data;
+                }
+                return data;
+              }
+            },
+            {
+              targets: 5, // Ads Sent column
+              render: function(data, type, row) {
+                if (type === 'display') {
+                  return data.toLocaleString(); // Format number with commas
+                }
+                return data;
+              }
+            }
+          ],
+          language: {
+            search: "Search advertisements:",
+            lengthMenu: "Show _MENU_ advertisements per page",
+            info: "Showing _START_ to _END_ of _TOTAL_ advertisements",
+            infoEmpty: "No advertisements available",
+            infoFiltered: "(filtered from _MAX_ total advertisements)"
+          }
+        });
+
+        // Adjust table layout on window resize
+        $(window).on('resize', function() {
+          if (dataTable) {
+            dataTable.columns.adjust();
+          }
+        });
+      }
+
+      function deleteAd(id) {
+        if (!confirm("Delete this advertisement?")) return;
+        fetch(`${API_BASE}/advertisements/delete/${id}`, {
+          method: "DELETE",
+          headers: { authorization: TOKEN },
+        })
+          .then((res) => res.json())
+          .then(() => {
+            fetchAds();
+            closeModal();
+          });
+      }
+
+      // Form submit handler
+      $('#add-ad-form').on('submit', function(e) {
+        e.preventDefault();
+        console.log('Form submitted');
+        const formData = new FormData(this);
+        const data = {
+          id: formData.get('id'),
+          title: formData.get('title'),
+          city: formData.get('city'),
+          state: formData.get('state'),
+          address: formData.get('address'),
+          description: formData.get('description')
+        };
+
+        const url = isEditing 
+          ? `${API_BASE}/advertisements/update`
+          : `${API_BASE}/advertisements/create`;
+        
+        const method = isEditing ? "PUT" : "POST";
+
+        console.log('Sending request:', { url, method, data });
+
+        fetch(url, {
+          method: method,
+          headers: {
+            "Content-Type": "application/json",
+            authorization: TOKEN,
+          },
+          body: JSON.stringify(data),
+        })
+          .then(async (res) => {
+            if (!res.ok) {
+              const error = await res.json();
+              throw new Error(error.error || 'Failed to save advertisement');
+            }
+            return res.json();
+          })
+          .then((result) => {
+            console.log('Request successful:', result);
+            closeModal();
+            fetchAds();
+            location.reload(); // Refresh the page to show updated ads
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert(error.message || "An error occurred while saving the advertisement.");
+          });
+      });
+
+      // Initial load
+      document.addEventListener("DOMContentLoaded", function() {
+        console.log('DOM loaded, fetching ads');
+        fetchAds();
+      });
+    </script>
+  </body>
+</html>

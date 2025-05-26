@@ -42,60 +42,214 @@ body, html {
   color: #4e8cff;
 }
 .container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 40px auto;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.98);
   border-radius: 24px;
-  box-shadow: 0 4px 24px rgba(80,80,160,0.08);
-  padding: 32px 24px 40px 24px;
+  box-shadow: 0 8px 32px rgba(80,80,160,0.12);
+  padding: 32px 32px 40px 32px;
 }
 h2 {
-  text-align: center;
-  font-size: 2rem;
+  text-align: left;
+  font-size: 1.8rem;
   color: #4e8cff;
-  margin-bottom: 32px;
-  font-weight: bold;
+  margin-bottom: 24px;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.add-ad-button {
+  background: #4e8cff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(78, 140, 255, 0.3);
+}
+.add-ad-button:hover {
+  background: #a259ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(162, 89, 255, 0.4);
 }
 #ads-table {
-  width: 100%;
-  border-collapse: collapse;
+  width: 100% !important;
   margin-bottom: 32px;
-  background: #f7f8fa;
+  background: #fff;
   border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
 }
-#ads-table th, #ads-table td {
-  padding: 14px 10px;
-  text-align: left;
+
+/* DataTables Custom Styling */
+.dataTables_wrapper {
+  padding: 0;
+  margin-bottom: 24px;
 }
-#ads-table th {
-  background: #a259ff;
-  color: #fff;
-  font-size: 1rem;
+
+.dataTables_filter {
+  margin-bottom: 16px;
+}
+
+.dataTables_filter input {
+  padding: 8px 12px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s;
+  background: #fff;
+  margin-left: 8px;
+}
+
+.dataTables_filter input:focus {
+  border-color: #4e8cff;
+  box-shadow: 0 0 0 3px rgba(78, 140, 255, 0.1);
+}
+
+.dataTables_length select {
+  padding: 6px 24px 6px 12px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s;
+  background: #fff;
+  cursor: pointer;
+}
+
+.dataTables_length select:focus {
+  border-color: #4e8cff;
+  box-shadow: 0 0 0 3px rgba(78, 140, 255, 0.1);
+}
+
+.dataTables_info {
+  color: #666;
+  font-size: 0.9rem;
+  padding-top: 16px;
+}
+
+.dataTables_paginate {
+  padding-top: 16px;
+}
+
+.dataTables_paginate .paginate_button {
+  padding: 6px 12px;
+  margin: 0 4px;
+  border: 1.5px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  color: #4e8cff !important;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dataTables_paginate .paginate_button:hover {
+  background: #f8f9ff !important;
+  border-color: #4e8cff !important;
+  color: #4e8cff !important;
+}
+
+.dataTables_paginate .paginate_button.current {
+  background: #4e8cff !important;
+  border-color: #4e8cff !important;
+  color: #fff !important;
+}
+
+.dataTables_paginate .paginate_button.disabled {
+  color: #ccc !important;
+  cursor: not-allowed;
+}
+
+/* Table Header Styling */
+#ads-table thead th {
+  background: #f8f9ff;
+  color: #4e8cff;
+  font-size: 0.95rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 20px;
+  border-bottom: 2px solid #e0e0e0;
 }
-#ads-table tr:nth-child(even) {
-  background: #e9e6ff;
+
+/* Table Body Styling */
+#ads-table tbody td {
+  padding: 16px 20px;
+  color: #444;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
 }
-#ads-table tr:nth-child(odd) {
-  background: #f7f8fa;
+
+#ads-table tbody tr:hover {
+  background: #f8f9ff;
 }
-#ads-table td {
-  color: #333;
-  font-size: 1rem;
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dataTables_wrapper {
+    overflow-x: auto;
+  }
+  
+  .dataTables_filter {
+    text-align: left;
+    margin-bottom: 12px;
+  }
+  
+  .dataTables_length {
+    margin-bottom: 12px;
+  }
+  
+  .dataTables_info {
+    text-align: left;
+  }
+  
+  .dataTables_paginate {
+    text-align: left;
+    margin-top: 12px;
+  }
 }
 #ads-table button {
   background: #4e8cff;
   color: #fff;
   border: none;
-  border-radius: 12px;
-  padding: 7px 16px;
-  font-size: 0.95rem;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
+  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
 }
 #ads-table button:hover {
   background: #a259ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(162, 89, 255, 0.2);
+}
+#ads-table .edit-button {
+  background: #4e8cff;
+}
+#ads-table .delete-button {
+  background: #ff4e4e;
+  margin-right: 0;
+}
+#ads-table .delete-button:hover {
+  background: #ff3333;
+}
+#ads-table td:last-child {
+  white-space: nowrap;
+  width: 100px;
 }
 #add-ad-section {
   margin-top: 32px;
@@ -110,123 +264,573 @@ h2 {
 #add-ad-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  align-items: center;
+  gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 #add-ad-form input, #add-ad-form textarea {
-  width: 320px;
-  padding: 12px 14px;
-  border: 1.5px solid #a259ff;
-  border-radius: 14px;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
   font-size: 1rem;
   outline: none;
-  transition: border 0.2s;
-  background: #f7f8fa;
-  resize: none;
+  transition: all 0.2s;
+  background: #fff;
+  box-sizing: border-box;
 }
 #add-ad-form input:focus, #add-ad-form textarea:focus {
-  border: 2px solid #4e8cff;
+  border-color: #4e8cff;
+  box-shadow: 0 0 0 3px rgba(78, 140, 255, 0.1);
+}
+#add-ad-form textarea {
+  min-height: 120px;
+  resize: vertical;
 }
 #add-ad-form button {
   background: #4e8cff;
   color: #fff;
   border: none;
-  border-radius: 16px;
-  padding: 12px 32px;
-  font-size: 1.1rem;
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   margin-top: 8px;
-  transition: background 0.2s;
+  transition: all 0.2s;
+  width: 100%;
 }
 #add-ad-form button:hover {
   background: #a259ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(162, 89, 255, 0.2);
 }
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .container {
-    padding: 12px 2vw 24px 2vw;
+    margin: 20px auto;
+    padding: 24px 20px;
   }
-  #add-ad-form input, #add-ad-form textarea {
-    width: 95vw;
-    max-width: 98vw;
+  
+  .modal {
+    width: 95%;
+    padding: 24px;
   }
-} 
+  
+  #ads-table th, #ads-table td {
+    padding: 12px 16px;
+  }
+}
 /* Remove card and center login on full page */
 .login-full-center {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient(to bottom, #4e8cff 0%, #a259ff 100%);
 }
+
 .login-container {
-  background: none !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-} 
-.login-title {
-  font-size: 2.3rem;
-  font-weight: bold;
-  color: #4e8cff;
-  margin-bottom: 8px;
-  letter-spacing: 2px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 24px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-out;
 }
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-logo {
+  max-width: 200px;
+  height: auto;
+  margin-bottom: 16px;
+}
+
 .login-subtitle {
-  color: #a259ff;
-  font-size: 1.2rem;
-  margin-bottom: 28px;
+  color: #4e8cff;
+  font-size: 1.5rem;
   font-weight: 600;
+  margin: 0;
 }
+
 #login-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  width: 100%;
-  align-items: center;
+  gap: 20px;
 }
-#login-form input, #login-form button {
-  max-width: 260px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+
+.form-group {
+  position: relative;
+  transition: all 0.3s ease;
 }
+
+.form-group.focused {
+  transform: translateY(-2px);
+}
+
 #login-form input {
-  padding: 13px 16px;
-  border: 1.5px solid #a259ff;
-  border-radius: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
   font-size: 1rem;
-  outline: none;
-  background: #ffffff;
-  transition: border 0.2s;
+  font-family: 'Montserrat', sans-serif;
+  transition: all 0.3s ease;
+  background: #fff;
 }
+
 #login-form input:focus {
-  border: 2px solid #4e8cff;
+  border-color: #4e8cff;
+  box-shadow: 0 0 0 4px rgba(78, 140, 255, 0.1);
+  outline: none;
 }
+
+#login-form input::placeholder {
+  color: #999;
+}
+
 #login-form button {
   background: #4e8cff;
   color: #fff;
   border: none;
-  border-radius: 16px;
-  padding: 13px 0;
+  border-radius: 12px;
+  padding: 14px;
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
   margin-top: 8px;
-  transition: background 0.2s;
 }
-#login-form button:hover {
+
+#login-form button:hover:not(:disabled) {
   background: #a259ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(162, 89, 255, 0.2);
 }
+
+#login-form button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .login-error {
-  color: #fff;
   background: #ff4e4e;
-  border-radius: 10px;
-  padding: 8px 0;
-  margin-top: 6px;
-  font-size: 1rem;
+  color: #fff;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
   text-align: center;
+  margin-top: 8px;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Login page responsive styles */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 30px 20px;
+    margin: 16px;
+    border-radius: 20px;
+  }
+
+  .login-logo {
+    max-width: 160px;
+  }
+
+  .login-subtitle {
+    font-size: 1.3rem;
+  }
+
+  #login-form {
+    gap: 16px;
+  }
+
+  #login-form input {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+
+  #login-form button {
+    padding: 12px;
+    font-size: 1rem;
+  }
+
+  .login-error {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}
+
+@media (max-height: 600px) {
+  .login-full-center {
+    padding: 16px;
+  }
+
+  .login-container {
+    padding: 24px 20px;
+  }
+
+  .login-header {
+    margin-bottom: 24px;
+  }
+
+  .login-logo {
+    max-width: 140px;
+    margin-bottom: 12px;
+  }
+
+  #login-form {
+    gap: 14px;
+  }
+}
+
+/* Ensure proper touch targets on mobile */
+@media (max-width: 768px) {
+  #login-form input,
+  #login-form button {
+    min-height: 44px;
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 1000;
+}
+
+.modal-overlay.active {
   display: block;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px;
+  width: 90%;
+  max-width: 500px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  margin: 0 auto;
+}
+
+/* Ensure modal is visible when active */
+.modal-overlay.active .modal {
+  display: block;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 16px;
+}
+
+.modal-header h3 {
+  color: #4e8cff;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  color: #4e8cff;
+}
+
+/* Add box-sizing to all elements for consistent sizing */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+/* Base responsive styles */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 95%;
+    margin: 20px auto;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Navbar responsive styles */
+  .navbar {
+    padding: 16px 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .navbar-title {
+    font-size: 1.8rem;
+  }
+
+  .navbar-links {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .navbar-links li {
+    font-size: 1rem;
+    padding: 6px 12px;
+  }
+
+  /* Container and table responsive styles */
+  .container {
+    margin: 16px auto;
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  /* DataTables responsive adjustments */
+  .dataTables_wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dataTables_filter {
+    text-align: left !important;
+    margin-bottom: 12px;
+    width: 100%;
+  }
+
+  .dataTables_filter input {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .dataTables_length {
+    margin-bottom: 12px;
+  }
+
+  .dataTables_info {
+    text-align: left;
+    padding-top: 12px;
+  }
+
+  .dataTables_paginate {
+    text-align: left;
+    margin-top: 12px;
+    float: none;
+  }
+
+  /* Table responsive styles */
+  #ads-table {
+    font-size: 0.9rem;
+  }
+
+  #ads-table th,
+  #ads-table td {
+    padding: 12px 8px;
+    white-space: normal;
+  }
+
+  #ads-table td:last-child {
+    white-space: nowrap;
+    min-width: 80px;
+  }
+
+  /* Modal responsive styles */
+  .modal {
+    width: 95%;
+    max-width: none;
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .modal-header h3 {
+    font-size: 1.3rem;
+  }
+
+  #add-ad-form input,
+  #add-ad-form textarea {
+    font-size: 0.95rem;
+    padding: 10px 12px;
+  }
+
+  #add-ad-form button[type="submit"] {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Navbar responsive styles */
+  .navbar-title {
+    font-size: 1.5rem;
+  }
+
+  .navbar-links li {
+    font-size: 0.9rem;
+    padding: 4px 10px;
+  }
+
+  /* Container and heading styles */
+  .container {
+    padding: 16px 12px;
+    margin: 12px auto;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  /* Add button styles */
+  .add-ad-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  /* Table responsive styles */
+  #ads-table {
+    font-size: 0.85rem;
+  }
+
+  #ads-table th,
+  #ads-table td {
+    padding: 8px 6px;
+  }
+
+  /* Modal responsive styles */
+  .modal {
+    padding: 16px;
+    margin: 16px;
+  }
+
+  .modal-header {
+    margin-bottom: 16px;
+  }
+
+  .modal-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .modal-close {
+    font-size: 1.3rem;
+  }
+
+  #add-ad-form {
+    gap: 12px;
+  }
+
+  #add-ad-form input,
+  #add-ad-form textarea {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  #add-ad-form button[type="submit"] {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Ensure DataTables responsive features work properly */
+table.dataTable.dtr-inline.collapsed>tbody>tr>td.dtr-control:before,
+table.dataTable.dtr-inline.collapsed>tbody>tr>th.dtr-control:before {
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #4e8cff;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td.dtr-control:before,
+table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th.dtr-control:before {
+  background-color: #a259ff;
+}
+
+/* Ensure proper touch targets on mobile */
+@media (max-width: 768px) {
+  button, 
+  .material-icons,
+  .modal-close,
+  .dataTables_paginate .paginate_button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .dataTables_paginate .paginate_button {
+    padding: 8px 12px;
+  }
+
+  #ads-table button {
+    min-width: 44px;
+    height: 44px;
+    padding: 8px;
+  }
+
+  .material-icons {
+    font-size: 20px !important;
+  }
+}
+
+/* Ensure proper spacing in DataTables responsive mode */
+@media screen and (max-width: 767px) {
+  .dataTables_wrapper .dataTables_info,
+  .dataTables_wrapper .dataTables_filter,
+  .dataTables_wrapper .dataTables_length,
+  .dataTables_wrapper .dataTables_paginate {
+    text-align: left;
+    float: none;
+    margin: 8px 0;
+  }
+
+  .dataTables_wrapper .dataTables_paginate {
+    margin-top: 12px;
+  }
+
+  .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 8px 12px;
+    margin: 0 2px;
+  }
 } 
